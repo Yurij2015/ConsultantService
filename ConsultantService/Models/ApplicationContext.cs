@@ -9,7 +9,7 @@ namespace ConsultantService.Models
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext() : base("DefaultConnection")
+        public ApplicationContext() : base("ConsultationConnection")
         {
         }
 

@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace ConsultantService.Controllers
 {
-    public class ConsultationController : ApiController
+    public class ConsultationsController : ApiController
     {
         ApplicationContext db = new ApplicationContext();
 
@@ -47,12 +47,12 @@ namespace ConsultantService.Controllers
 
         public IHttpActionResult Delete(int id)
         {
-            Consultation friend = db.Consultations.Find(id);
-            if (friend != null)
+            Consultation consultation = db.Consultations.Find(id);
+            if (consultation != null)
             {
-                db.Consultations.Remove(friend);
+                db.Consultations.Remove(consultation);
                 db.SaveChanges();
-                return Ok(friend);
+                return Ok(consultation);
             }
             return NotFound();
         }
