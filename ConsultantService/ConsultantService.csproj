@@ -119,10 +119,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\consultation.mdf" />
-    <Content Include="App_Data\consultation_log.ldf">
-      <DependentUpon>consultation.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -167,6 +163,10 @@
     <Compile Include="Migrations\202003070809442_AddConsultationMigrationSecond.designer.cs">
       <DependentUpon>202003070809442_AddConsultationMigrationSecond.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003071157017_AddConsultationMigration3.cs" />
+    <Compile Include="Migrations\202003071157017_AddConsultationMigration3.designer.cs">
+      <DependentUpon>202003071157017_AddConsultationMigration3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\Consultation.cs" />
@@ -201,6 +201,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003070809442_AddConsultationMigrationSecond.resx">
       <DependentUpon>202003070809442_AddConsultationMigrationSecond.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003071157017_AddConsultationMigration3.resx">
+      <DependentUpon>202003071157017_AddConsultationMigration3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Http;
 using ConsultantService.Models;
 using System.Data.Entity;
+using ConsultationService.Models;
 
 namespace ConsultantService.Controllers
 {

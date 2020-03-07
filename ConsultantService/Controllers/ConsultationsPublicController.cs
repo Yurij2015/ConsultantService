@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ConsultantService.Models;
+using ConsultationService.Models;
 
 namespace ConsultantService.Controllers
 {
