@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Консультации</title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+<body class="container">
+    <div id="tableBlock"></div>
+    <hr />
+    <div id="editBlock">
+        <p><b>Редактирование консультации</b></p>
+        <table class="table table-hover">
+            <tr><td><input type="hidden" id="editId" /></td><td></td></tr>
+            <tr><td><label>ФИО клиента: </label></td><td><input class="form-control" type="text" id="editName" /></td></tr>
+            <tr><td><label>Электронная почта: </label></td><td><input class="form-control" type="text" id="editEmail" /></td></tr>
+            <tr><td><label>Номер телефона: </label></td><td><input class="form-control" type="number" id="editPhone" /></td></tr>
+        </table>
+        <button id="editConsultation" class="btn btn-primary">Сохранить</button>
+    </div>
+    <div id="createBlock">
+        <p><b>Добавление консультации</b></p>
+        <table class="table table-hover">
+            <tr><td><label>ФИО клиента: </label></td><td><input class="form-control" type="text" id="addName" /></td></tr>
+            <tr><td><label>Электронная почта: </label></td><td><input class="form-control" type="text" id="addEmail" /></td></tr>
+            <tr><td><label>Номер телефона: </label></td><td><input class="form-control" type="number" id="addPhone" /></td></tr>
+        </table>
+        <button id="addConsultation" class="btn btn-primary">Сохранить</button>
+    </div>
+</body>
+</html>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        GetAllConsultations();
+
+        $("#editConsultation").click(function (event) {
+            event.preventDefault();
+            EditConsultation();
+        });
+
+        $("#addConsultation").click(function (event) {
+            event.preventDefault();
+            AddConsultation();
+        });
+
+    });
+    // Получение всех книг по ajax-запросу
+    function GetAllConsultations() {
+
+        $("#createBlock").css('display', 'block');
+        $("#editBlock").css('display', 'none');
+        $.ajax({
+            url: '/api/ConsultationsWeb',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                WriteResponse(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+    // Добавление новой книги
+    function AddConsultation() {
+        // получаем значения для добавляемой книги
+        var consultation = {
+            Name: $('#addName').val(),
+            Author: $('#addAuthor').val(),
+            Year: $('#addYear').val()
+        };
+
+        $.ajax({
+            url: '/api/ConsultationsWeb/',
+            type: 'POST',
+            data: JSON.stringify(consultation),
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                GetAllConsultations();
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+    // Удаление книги
+    function DeleteConsultation(id) {
+
+        $.ajax({
+            url: '/api/ConsultationsWeb/' + id,
+            type: 'DELETE',
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                GetAllConsultations();
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+    // редактирование книги
+    function EditConsultation() {
+        var id = $('#editId').val()
+        // получаем новые значения для редактируемой книги
+        var consultation = {
+            Id: $('#editId').val(),
+            Name: $('#editName').val(),
+            Email: $('#editEmail').val(),
+            Phone: $('#editPhone').val()
+        };
+        $.ajax({
+            url: '/api/ConsultationsWeb/' + id,
+            type: 'PUT',
+            data: JSON.stringify(consultation),
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                GetAllConsultations();
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+    // вывод полученных данных на экран
+    function WriteResponse(consultations) {
+        var strResult = "<table class='table table-hover'><th>ID</th><th>Название</th><th>Автор</th><th>Год издания</th>";
+        $.each(consultations, function (index, consultation) {
+            strResult += "<tr><td>" + consultation.Id + "</td><td> " + consultation.Name + "</td><td>" +
+                consultation.Email + "</td><td>" + consultation.Phone +
+                "</td><td><a id='editItem' data-item='" + consultation.Id + "' onclick='EditItem(this);' >Редактировать</a></td>" +
+                "<td><a id='delItem' data-item='" + consultation.Id + "' onclick='DeleteItem(this);' >Удалить</a></td></tr>";
+        });
+        strResult += "</table>";
+        $("#tableBlock").html(strResult);
+
+    }
+    // обработчик удаления
+    function DeleteItem(el) {
+        // получаем id удаляемого объекта
+        var id = $(el).attr('data-item');
+        DeleteConsultation(id);
+    }
+    // обработчик редактирования
+    function EditItem(el) {
+        // получаем id редактируемого объекта
+        var id = $(el).attr('data-item');
+        GetConsultation(id);
+    }
+    // вывод данных редактируемой книги в поля для редактирования
+    function ShowConsultation(consultation) {
+        if (consultation != null) {
+            $("#createBlock").css('display', 'none');
+            $("#editBlock").css('display', 'block');
+            $("#editId").val(consultation.Id);
+            $("#editName").val(consultation.Name);
+            $("#editPhone").val(consultation.Phone);
+            $("#editEmail").val(consultation.Email);
+        }
+        else {
+            alert("Такая книга не существует");
+        }
+    }
+    // запрос книги на редактирование
+    function GetConsultation(id) {
+        $.ajax({
+            url: '/api/ConsultationsWeb/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                ShowConsultation(data);
+            },
+            error: function (x, y, z) {
+                alert(x + '\n' + y + '\n' + z);
+            }
+        });
+    }
+</script>
