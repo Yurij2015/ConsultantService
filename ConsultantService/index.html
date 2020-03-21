@@ -16,7 +16,7 @@
                 <li class="active"><a href="/">Main</a></li>
                 <li><a href="consultants.html">Consultants</a></li>
                 <li class="active"><a href="/">Consultations</a></li>
-                <li><a href="#">About</a></li>
+                <!--<li><a href="#">About</a></li>-->
             </ul>
         </div>
     </nav>
@@ -42,6 +42,10 @@
                 <td><label>Вопрос клиента: </label></td>
                 <td><textarea class="form-control" id="editQuestion"></textarea></td>
             </tr>
+            <tr>
+                <td><label>Консультант: </label></td>
+                <td><input class="form-control" type="text" id="editConsultant"></td>
+            </tr>
         </table>
         <button id="editConsultation" class="btn btn-primary">Сохранить</button>
     </div>
@@ -63,6 +67,10 @@
             <tr>
                 <td><label>Вопрос клиента: </label></td>
                 <td><textarea class="form-control" id="addQuestion"></textarea></td>
+            </tr>
+            <tr>
+                <td><label>Консультант: </label></td>
+                <td><input class="form-control" type="text" id="addConsultant"></td>
             </tr>
         </table>
         <button id="addConsultation" class="btn btn-primary">Сохранить</button>
@@ -121,7 +129,8 @@
             Name: $('#addName').val(),
             Email: $('#addEmail').val(),
             Phone: $('#addPhone').val(),
-            Question: $('#addQuestion').val()
+            Question: $('#addQuestion').val(),
+            Consultant: $('#addConsultant').val()
         };
 
         $.ajax({
@@ -163,7 +172,9 @@
             Name: $('#editName').val(),
             Email: $('#editEmail').val(),
             Phone: $('#editPhone').val(),
-            Question: $('#editQuestion').val()
+            Question: $('#editQuestion').val(),
+            Consultant: $('#editConsultant').val()
+
         };
         $.ajax({
             url: '/api/ConsultationsWeb/' + id,
@@ -187,6 +198,7 @@
             "<th>Электронная почта</th>" +
             "<th>Номер телефона</th>" +
             "<th class='col-md-3'>Вопрос</th>" +
+            "<th>Консультант</th>" +
             "<th></th>" +
             "<th></th>" +
             "<th></th>";
@@ -197,6 +209,7 @@
                 "<td>" + consultation.Email + "</td>" +
                 "<td>" + consultation.Phone + "</td>" +
                 "<th>" + consultation.Question + "</th>" +
+                "<th>" + consultation.Consultant + "</th>" +
                 "<td><a id='editItem' data-item='" + consultation.Id + "' onclick='EditItem(this);' >Редактировать</a></td>" +
                 "<td><a id='delItem' data-item='" + consultation.Id + "' onclick='DeleteItem(this);' >Удалить</a></td>" +
                 "</tr > ";
@@ -230,8 +243,9 @@
             $("#editPhone").val(consultation.Phone);
             $("#editEmail").val(consultation.Email);
             $("#editQuestion").val(consultation.Question);
+            $("#editConsultant").val(consultation.Consultant);
         } else {
-            alert("Такая книга не существует");
+            alert("Такая запись не существует");
         }
     }
 
