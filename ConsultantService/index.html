@@ -38,6 +38,10 @@
                 <td><label>Номер телефона: </label></td>
                 <td><input class="form-control" type="number" id="editPhone" /></td>
             </tr>
+            <tr>
+                <td><label>Вопрос клиента: </label></td>
+                <td><textarea class="form-control" id="editQuestion"></textarea></td>
+            </tr>
         </table>
         <button id="editConsultation" class="btn btn-primary">Сохранить</button>
     </div>
@@ -55,6 +59,10 @@
             <tr>
                 <td><label>Номер телефона: </label></td>
                 <td><input class="form-control" type="number" id="addPhone" /></td>
+            </tr>
+            <tr>
+                <td><label>Вопрос клиента: </label></td>
+                <td><textarea class="form-control" id="addQuestion"></textarea></td>
             </tr>
         </table>
         <button id="addConsultation" class="btn btn-primary">Сохранить</button>
@@ -111,8 +119,9 @@
         // получаем значения для добавляемой заявки
         var consultation = {
             Name: $('#addName').val(),
-            Author: $('#addAuthor').val(),
-            Year: $('#addYear').val()
+            Email: $('#addEmail').val(),
+            Phone: $('#addPhone').val(),
+            Question: $('#addQuestion').val()
         };
 
         $.ajax({
@@ -153,7 +162,8 @@
             Id: $('#editId').val(),
             Name: $('#editName').val(),
             Email: $('#editEmail').val(),
-            Phone: $('#editPhone').val()
+            Phone: $('#editPhone').val(),
+            Question: $('#editQuestion').val()
         };
         $.ajax({
             url: '/api/ConsultationsWeb/' + id,
@@ -186,7 +196,7 @@
                 "<td>" + consultation.Name + "</td>" +
                 "<td>" + consultation.Email + "</td>" +
                 "<td>" + consultation.Phone + "</td>" +
-                "<th></th>" +
+                "<th>" + consultation.Question + "</th>" +
                 "<td><a id='editItem' data-item='" + consultation.Id + "' onclick='EditItem(this);' >Редактировать</a></td>" +
                 "<td><a id='delItem' data-item='" + consultation.Id + "' onclick='DeleteItem(this);' >Удалить</a></td>" +
                 "</tr > ";
@@ -219,6 +229,7 @@
             $("#editName").val(consultation.Name);
             $("#editPhone").val(consultation.Phone);
             $("#editEmail").val(consultation.Email);
+            $("#editQuestion").val(consultation.Question);
         } else {
             alert("Такая книга не существует");
         }

@@ -10,6 +10,6 @@ namespace ConsultationService.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Question { get; set; }
-
+        public string Consultant { get; set; }
     }
 }
