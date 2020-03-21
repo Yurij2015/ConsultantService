@@ -13,9 +13,9 @@
                 <a class="navbar-brand" href="#">YourConsult</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Main</a></li>
+                <li class="active"><a href="/">Main</a></li>
                 <li><a href="consultants.html">Consultants</a></li>
-                <li><a href="#">Consultations</a></li>
+                <li class="active"><a href="/">Consultations</a></li>
                 <li><a href="#">About</a></li>
             </ul>
         </div>
@@ -23,21 +23,39 @@
     <div id="tableBlock"></div>
     <hr />
     <div id="editBlock">
-        <p><b>Редактирование консультации</b></p>
+        <p><b>Редактирование заявки</b></p>
+        <input type="hidden" id="editId" />
         <table class="table table-hover">
-            <input type="hidden" id="editId" />
-            <tr><td><label>ФИО клиента: </label></td><td><input class="form-control" type="text" id="editName" /></td></tr>
-            <tr><td><label>Электронная почта: </label></td><td><input class="form-control" type="text" id="editEmail" /></td></tr>
-            <tr><td><label>Номер телефона: </label></td><td><input class="form-control" type="number" id="editPhone" /></td></tr>
+            <tr>
+                <td><label>ФИО клиента: </label></td>
+                <td><input class="form-control" type="text" id="editName" /></td>
+            </tr>
+            <tr>
+                <td><label>Электронная почта: </label></td>
+                <td><input class="form-control" type="text" id="editEmail" /></td>
+            </tr>
+            <tr>
+                <td><label>Номер телефона: </label></td>
+                <td><input class="form-control" type="number" id="editPhone" /></td>
+            </tr>
         </table>
         <button id="editConsultation" class="btn btn-primary">Сохранить</button>
     </div>
     <div id="createBlock">
-        <p><b>Добавление консультации</b></p>
+        <p><b>Добавление заявки</b></p>
         <table class="table table-hover">
-            <tr><td><label>ФИО клиента: </label></td><td><input class="form-control" type="text" id="addName" /></td></tr>
-            <tr><td><label>Электронная почта: </label></td><td><input class="form-control" type="text" id="addEmail" /></td></tr>
-            <tr><td><label>Номер телефона: </label></td><td><input class="form-control" type="number" id="addPhone" /></td></tr>
+            <tr>
+                <td><label>ФИО клиента: </label></td>
+                <td><input class="form-control" type="text" id="addName" /></td>
+            </tr>
+            <tr>
+                <td><label>Электронная почта: </label></td>
+                <td><input class="form-control" type="text" id="addEmail" /></td>
+            </tr>
+            <tr>
+                <td><label>Номер телефона: </label></td>
+                <td><input class="form-control" type="number" id="addPhone" /></td>
+            </tr>
         </table>
         <button id="addConsultation" class="btn btn-primary">Сохранить</button>
     </div>
@@ -49,7 +67,7 @@
             </p>
         </footer>
     </div>
-    
+
 </body>
 </html>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
@@ -69,6 +87,7 @@
         });
 
     });
+
     // Получение всех консультаций по ajax-запросу
     function GetAllConsultations() {
 
@@ -86,9 +105,10 @@
             }
         });
     }
-    // Добавление новой книги
+
+    // Добавление новой заявки
     function AddConsultation() {
-        // получаем значения для добавляемой книги
+        // получаем значения для добавляемой заявки
         var consultation = {
             Name: $('#addName').val(),
             Author: $('#addAuthor').val(),
@@ -108,7 +128,8 @@
             }
         });
     }
-    // Удаление консультации
+
+    // Удаление заявки
     function DeleteConsultation(id) {
 
         $.ajax({
@@ -123,7 +144,8 @@
             }
         });
     }
-    // редактирование консультации
+
+    // редактирование заявки
     function EditConsultation() {
         var id = $('#editId').val()
         // получаем новые значения для редактируемой консультации
@@ -146,32 +168,49 @@
             }
         });
     }
+
     // вывод полученных данных на экран
     function WriteResponse(consultations) {
-        var strResult = "<table class='table table-hover'><th>ID</th><th>Название</th><th>Автор</th><th>Год издания</th>";
+        var strResult = "<table class='table table-hover'>" +
+            "<th>ID</th>" +
+            "<th>ФИО клиента</th>" +
+            "<th>Электронная почта</th>" +
+            "<th>Номер телефона</th>" +
+            "<th class='col-md-3'>Вопрос</th>" +
+            "<th></th>" +
+            "<th></th>" +
+            "<th></th>";
         $.each(consultations, function (index, consultation) {
-            strResult += "<tr><td>" + consultation.Id + "</td><td> " + consultation.Name + "</td><td>" +
-                consultation.Email + "</td><td>" + consultation.Phone +
-                "</td><td><a id='editItem' data-item='" + consultation.Id + "' onclick='EditItem(this);' >Редактировать</a></td>" +
-                "<td><a id='delItem' data-item='" + consultation.Id + "' onclick='DeleteItem(this);' >Удалить</a></td></tr>";
+            strResult += "<tr>" +
+                "<td>" + consultation.Id + "</td>" +
+                "<td>" + consultation.Name + "</td>" +
+                "<td>" + consultation.Email + "</td>" +
+                "<td>" + consultation.Phone + "</td>" +
+                "<th></th>" +
+                "<td><a id='editItem' data-item='" + consultation.Id + "' onclick='EditItem(this);' >Редактировать</a></td>" +
+                "<td><a id='delItem' data-item='" + consultation.Id + "' onclick='DeleteItem(this);' >Удалить</a></td>" +
+                "</tr > ";
         });
         strResult += "</table>";
         $("#tableBlock").html(strResult);
 
     }
+
     // обработчик удаления
     function DeleteItem(el) {
         // получаем id удаляемого объекта
         var id = $(el).attr('data-item');
         DeleteConsultation(id);
     }
+
     // обработчик редактирования
     function EditItem(el) {
         // получаем id редактируемого объекта
         var id = $(el).attr('data-item');
         GetConsultation(id);
     }
-    // вывод данных редактируемой книги в поля для редактирования
+
+    // вывод данных заявки в поля для редактирования
     function ShowConsultation(consultation) {
         if (consultation != null) {
             $("#createBlock").css('display', 'none');
@@ -180,12 +219,12 @@
             $("#editName").val(consultation.Name);
             $("#editPhone").val(consultation.Phone);
             $("#editEmail").val(consultation.Email);
-        }
-        else {
+        } else {
             alert("Такая книга не существует");
         }
     }
-    // запрос книги на редактирование
+
+    // запрос заявки на редактирование
     function GetConsultation(id) {
         $.ajax({
             url: '/api/ConsultationsWeb/' + id,

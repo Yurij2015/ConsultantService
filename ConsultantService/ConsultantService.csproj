@@ -181,6 +181,10 @@
     <Compile Include="Migrations\202003201437106_AdConsultant.designer.cs">
       <DependentUpon>202003201437106_AdConsultant.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003210854323_add question in constultation.cs" />
+    <Compile Include="Migrations\202003210854323_add question in constultation.designer.cs">
+      <DependentUpon>202003210854323_add question in constultation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationContext.cs" />
     <Compile Include="Models\Consultant.cs" />
@@ -229,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003201437106_AdConsultant.resx">
       <DependentUpon>202003201437106_AdConsultant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003210854323_add question in constultation.resx">
+      <DependentUpon>202003210854323_add question in constultation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
