@@ -14,5 +14,7 @@ namespace ConsultantService.Models
         }
 
         public DbSet<Consultation> Consultations { get; set; }
+
+        public System.Data.Entity.DbSet<ConsultantService.Models.Consultant> Consultants { get; set; }
     }
 }

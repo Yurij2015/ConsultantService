@@ -14,6 +14,6 @@ namespace ConsultantService.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Portfolio { get; set; }
-
+        public string Services { get; set; }
     }
 }

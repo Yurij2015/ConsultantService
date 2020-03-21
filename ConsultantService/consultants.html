@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Консультации</title>
+    <title>Список консультантов</title>
     <link href="Content/Site.css" rel="stylesheet" />
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
 </head>
@@ -13,33 +13,38 @@
                 <a class="navbar-brand" href="#">YourConsult</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Main</a></li>
-                <li><a href="consultants.html">Consultants</a></li>
-                <li><a href="#">Consultations</a></li>
+                <li><a href="/">Main</a></li>
+                <li class="active"><a href="consultants.html">Consultants</a></li>
+                <li ><a href="#">Consultations</a></li>
                 <li><a href="#">About</a></li>
+
             </ul>
         </div>
     </nav>
     <div id="tableBlock"></div>
     <hr />
     <div id="editBlock">
-        <p><b>Редактирование консультации</b></p>
+        <p><b>Редактирование данных консультанта</b></p>
         <table class="table table-hover">
             <input type="hidden" id="editId" />
-            <tr><td><label>ФИО клиента: </label></td><td><input class="form-control" type="text" id="editName" /></td></tr>
+            <tr><td><label>ФИО консультанта: </label></td><td><input class="form-control" type="text" id="editName" /></td></tr>
             <tr><td><label>Электронная почта: </label></td><td><input class="form-control" type="text" id="editEmail" /></td></tr>
             <tr><td><label>Номер телефона: </label></td><td><input class="form-control" type="number" id="editPhone" /></td></tr>
+            <tr><td><label>Портфолио: </label></td><td><textarea class="form-control" type="number" id="editPortfolio"></textarea></td></tr>
+            <tr><td><label>Услуги: </label></td><td><textarea class="form-control" type="number" id="editServices"></textarea></td></tr>
         </table>
-        <button id="editConsultation" class="btn btn-primary">Сохранить</button>
+        <button id="editConsultant" class="btn btn-primary">Сохранить</button>
     </div>
     <div id="createBlock">
-        <p><b>Добавление консультации</b></p>
+        <p><b>Добавление консультанта</b></p>
         <table class="table table-hover">
-            <tr><td><label>ФИО клиента: </label></td><td><input class="form-control" type="text" id="addName" /></td></tr>
+            <tr><td><label>ФИО консультанта: </label></td><td><input class="form-control" type="text" id="addName" /></td></tr>
             <tr><td><label>Электронная почта: </label></td><td><input class="form-control" type="text" id="addEmail" /></td></tr>
-            <tr><td><label>Номер телефона: </label></td><td><input class="form-control" type="number" id="addPhone" /></td></tr>
+            <tr><td><label>Номер телефона: </label></td><td><input class="form-control col-lg-12" type="number" id="addPhone" /></td></tr>
+            <tr><td><label>Портфолио: </label></td><td><textarea class="form-control" type="number" id="addPortfolio"></textarea></td></tr>
+            <tr><td><label>Услуги: </label></td><td><textarea class="form-control col-md-12" type="number" id="addServices"></textarea></td></tr>
         </table>
-        <button id="addConsultation" class="btn btn-primary">Сохранить</button>
+        <button id="addConsultant" class="btn btn-primary">Сохранить</button>
     </div>
     <div class="row">
         <footer>
@@ -49,7 +54,7 @@
             </p>
         </footer>
     </div>
-    
+
 </body>
 </html>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
@@ -69,13 +74,13 @@
         });
 
     });
-    // Получение всех консультаций по ajax-запросу
+    // Получение всех консультантов по ajax-запросу
     function GetAllConsultations() {
 
         $("#createBlock").css('display', 'block');
         $("#editBlock").css('display', 'none');
         $.ajax({
-            url: '/api/ConsultationsWeb',
+            url: '/api/consultants',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -86,9 +91,9 @@
             }
         });
     }
-    // Добавление новой книги
+    // Добавление новой записи
     function AddConsultation() {
-        // получаем значения для добавляемой книги
+        // получаем значения для добавляемой записи
         var consultation = {
             Name: $('#addName').val(),
             Author: $('#addAuthor').val(),
@@ -148,7 +153,7 @@
     }
     // вывод полученных данных на экран
     function WriteResponse(consultations) {
-        var strResult = "<table class='table table-hover'><th>ID</th><th>Название</th><th>Автор</th><th>Год издания</th>";
+        var strResult = "<table class='table table-hover'><th>ID</th><th>Название</th><th>Автор</th><th>Год издания</th><th></th><th></th>";
         $.each(consultations, function (index, consultation) {
             strResult += "<tr><td>" + consultation.Id + "</td><td> " + consultation.Name + "</td><td>" +
                 consultation.Email + "</td><td>" + consultation.Phone +
